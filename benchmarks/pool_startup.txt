@@ -1,0 +1,3 @@
+Process pool workers: 8
+Pool startup seconds: 12.080947
+Pool startup excluded from all timed calls.

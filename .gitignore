@@ -1,0 +1,8 @@
+# Local benchmark inputs and MATLAB outputs must not enter the public repository.
+*.set
+*.fdt
+*.mat
+*.asv
+*.zip
+*.log
+__pycache__/
