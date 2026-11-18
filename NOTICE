@@ -1,15 +1,22 @@
 CleanLine GPT-6 Optimized 1.0.0
 
-The CleanLine algorithm was developed by Tim Mullen. CleanLine V2 includes
-a rewrite by Kay A. Robbins, integration by Arnaud Delorme, and testing by
-Makoto Miyakoshi. Performance optimization and integration for this build
-were led by Makoto Miyakoshi with programming and benchmarking assistance
-from OpenAI GPT-6 through ChatGPT Work.
+The original CleanLine algorithm and EEGLAB plugin were developed by Tim
+Mullen. Kay A. Robbins undertook the substantial rewrite for PREP that
+Arnaud Delorme integrated into official EEGLAB CleanLine as V2 in July
+2020. Makoto Miyakoshi initiated and coordinated that integration and
+validated the result. Performance optimization and packaging of this
+derivative were led by Makoto Miyakoshi with programming and benchmarking
+assistance from OpenAI GPT-6 through ChatGPT Work.
 
 The Original mode refers to CleanLine 2.00 with newversion=1. It does not
 refer to the historical CleanLine V1 algorithm. Mathematical signal
 processing, automatic harmonics, F-test decisions, iterative convergence,
 and overlap blending are preserved in both modes.
+Kay's public PREP implementation already contained channel-level parfor
+in October 2014. Arnaud's 2020 integration brought that existing
+parallel-capable implementation into CleanLine V2. This derivative makes
+Serial and Parallel selectable and does not claim to have introduced the
+parallel architecture. See docs/DEVELOPMENT_HISTORY.md.
 
 The package-qualified CleanLine source in +clgpt6original and
 +clgpt6optimized is adapted from the verified SCCN Cleanline2.00.zip

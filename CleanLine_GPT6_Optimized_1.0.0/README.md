@@ -1,5 +1,33 @@
 # CleanLine GPT-6 Optimized 1.0.0
 
+## Origins and acknowledgments
+
+**This project is a performance-optimized derivative of the original
+[CleanLine EEGLAB plugin](https://github.com/sccn/cleanline), written by Tim
+Mullen at the Swartz Center for Computational Neuroscience, University of
+California, San Diego.** Original CleanLine applies the multitaper approach
+to sinusoidal interference described by Partha Mitra and Hemant Bokil in
+*Observed Brain Dynamics* (2007, §7.3.4) and drew on the Chronux toolbox.
+The [SCCN project history](https://github.com/sccn/cleanline/blob/master/Readme.md#cleanline-versions)
+credits **Kay A. Robbins** with the CleanLine V2 rewrite, **Arnaud Delorme**
+with integration, and **Makoto Miyakoshi** with testing. This repository,
+led by Makoto Miyakoshi with programming and optimization assistance from
+OpenAI GPT-6, improves the efficiency and packaging of that V2
+implementation while preserving its signal-processing results. The original
+method and software remain credited to their developers; this repository
+does not claim a new line-noise removal method.
+
+Kay's substantial rewrite for the [PREP pipeline](https://github.com/VisLab/EEG-Clean-Tools)
+already contained channel-level `parfor` in her
+[October 7, 2014 public commit](https://github.com/VisLab/EEG-Clean-Tools/commit/a37f73be8675b6670df9c749ba1a9eeeaa4b0b96).
+In July 2020, Makoto Miyakoshi initiated and coordinated its adoption in
+official CleanLine; Arnaud Delorme's
+[July 19 integration commit](https://github.com/sccn/cleanline/commit/294a6178157cd77fec25fcbb7e7ad2175076a60f)
+made Kay's rewrite the default V2 implementation. Makoto validated the
+integrated plugin, and Tim welcomed the improvement of his original work.
+The [development history](docs/DEVELOPMENT_HISTORY.md) gives the chronology
+without publishing private correspondence.
+
 A self-contained EEGLAB plugin with selectable **Original CleanLine 2.00 V2**
 (`newversion=1`) and a numerically identical optimized implementation.
 
@@ -9,12 +37,22 @@ A self-contained EEGLAB plugin with selectable **Original CleanLine 2.00 V2**
 **30-minute recording — Original CleanLine: 289.94 s → Optimized CleanLine:
 69.94 s (4.1× faster; 75.9% reduction in execution time).**
 
-These are medians of three measured runs on the same 33-channel EEG data.
-The headline compares the usual serial baseline with the eight-worker
-optimized mode. The source change alone also improves matched parallel
-execution: **15.28 → 13.69 s at 5 min (1.12×)** and **80.43 → 69.94 s at
-30 min (1.15×)**. The optimized serial mode takes 40.00 s and 226.85 s at
-those durations, respectively.
+**Parallel-processing attribution:** Kay's 2014 PREP implementation already
+contained channel-level `parfor`, which Arnaud integrated into CleanLine
+V2. The present project made Serial and Parallel explicitly selectable and
+optimized computation within each channel; it did not introduce
+parallelization. Thus the Original-Serial-to-Optimized-Parallel headlines
+combine this existing capability with new source-code changes. Matched
+Serial and matched Parallel measurements isolate the latter contribution.
+
+| Comparison | 5-minute recording | 30-minute recording |
+| --- | ---: | ---: |
+| Matched Serial — source-code optimization | 51.47 → 40.00 s (1.29×) | 289.94 → 226.85 s (1.28×) |
+| Matched Parallel — source-code optimization, eight workers | 15.28 → 13.69 s (1.12×) | 80.43 → 69.94 s (1.15×) |
+| Original Serial → Optimized Parallel — overall practical acceleration | 51.47 → 13.69 s (3.76×) | 289.94 → 69.94 s (4.15×) |
+
+The headline values are medians of three measured runs on the same
+33-channel EEG data.
 Speedup = Original time / Optimized time; time reduction (%) =
 100 × (Original time − Optimized time) / Original time.
 
@@ -192,3 +230,17 @@ package includes the original archive license text and notices alongside
 the repository's GPL v3 license. The core V2 algorithms and scientific
 method remain attributed to their original authors; the performance changes
 were led by Makoto Miyakoshi with GPT-6 programming assistance.
+
+### Historical contributions
+
+| Contributor | Contribution |
+| --- | --- |
+| **Tim Mullen** | Original CleanLine algorithm and EEGLAB software. |
+| **Kay A. Robbins** | Substantial PREP rewrite, numerical and parameter-handling work, and the documented 2014 parallel-capable implementation. |
+| **Arnaud Delorme** | Integration of Kay's rewrite into the official CleanLine V2 EEGLAB plugin. |
+| **Makoto Miyakoshi** | V2 integration initiative and validation; leadership of this optimized derivative. |
+| **OpenAI GPT-6** | Programming, benchmarking, and optimization assistance for this derivative. |
+
+The [development history](docs/DEVELOPMENT_HISTORY.md) links the public
+PREP and SCCN commits and distinguishes the earlier implementations from
+this project's changes.

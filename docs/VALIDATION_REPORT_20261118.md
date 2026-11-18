@@ -39,6 +39,10 @@ Parallel runs have three paired repeats at every duration. Serial runs have
 three repeats at 5 and 30 min and one at each intermediate duration. The
 eight-worker process pool took 12.080947 s to start in the measured session;
 startup, loading, and saving are excluded from the processing times.
+The overall Serial-to-Parallel result includes the channel-level `parfor`
+already present in Kay Robbins' PREP implementation and integrated into
+CleanLine V2 by Arnaud Delorme. The matched Serial and matched Parallel
+columns isolate the present project's source-code optimization.
 
 Across every tested duration and repetition, cleaned EEG and removed noise
 have **maximum absolute error 0** and **relative L2 error 0** against Original
