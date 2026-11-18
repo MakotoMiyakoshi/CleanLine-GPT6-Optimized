@@ -1,0 +1,9 @@
+# Local benchmark inputs and MATLAB outputs must not enter the public repository.
+*.set
+*.fdt
+*.mat
+*.asv
+*.zip
+!CleanLine_GPT6_Optimized_1.0.0.zip
+*.log
+__pycache__/

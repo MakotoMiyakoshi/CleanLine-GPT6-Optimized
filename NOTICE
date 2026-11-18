@@ -1,0 +1,24 @@
+CleanLine GPT-6 Optimized 1.0.0
+
+The CleanLine algorithm was developed by Tim Mullen. CleanLine V2 includes
+a rewrite by Kay A. Robbins, integration by Arnaud Delorme, and testing by
+Makoto Miyakoshi. Performance optimization and integration for this build
+were led by Makoto Miyakoshi with programming and benchmarking assistance
+from OpenAI GPT-6 through ChatGPT Work.
+
+The Original mode refers to CleanLine 2.00 with newversion=1. It does not
+refer to the historical CleanLine V1 algorithm. Mathematical signal
+processing, automatic harmonics, F-test decisions, iterative convergence,
+and overlap blending are preserved in both modes.
+
+The package-qualified CleanLine source in +clgpt6original and
++clgpt6optimized is adapted from the verified SCCN Cleanline2.00.zip
+reference. The parent cleanline.m and pop_cleanline.m expressly permit
+GPL version 3 or later and invoke the V2 core. The archive's GPL v2 text
+is retained in ORIGINAL_CLEANLINE_LICENSE.txt and discussed in
+docs/LICENSING_AUDIT.md.
+
+The four +clgpt6compat helpers are newly written compatibility
+implementations of the required interfaces and equations. No original
+Chronux or BCILAB source or binary is bundled. The ZIP contains no
+participant EEG data.
