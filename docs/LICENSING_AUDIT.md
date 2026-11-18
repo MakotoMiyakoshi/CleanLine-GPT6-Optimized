@@ -1,11 +1,43 @@
-# Licensing audit (development status)
+# Licensing and dependency audit for CleanLine GPT-6 Optimized 1.0.0
 
-The repository's `main` branch has its original GPL v3 `LICENSE`. This development branch adds newly written wrapper and compatibility code. It does not contain copied CleanLine V2, Chronux, or BCILAB source.
+## CleanLine V2 core
 
-The verified local CleanLine 2.00 archive has SHA-256 `1F319E3C29E79525DB9D2C6EC47BEC4EB91A7D944D472D4C95D600148BEA6D53`. Its public wrappers state GPL version 3 or later, while `eegplugin_cleanline.m` states GPL version 2 or later. The archive's `license.txt` is the full GPL v2 text. Several V2 core files have no per-file version statement.
+The source is the verified SCCN CleanLine 2.00 archive (SHA-256
+`1F319E3C29E79525DB9D2C6EC47BEC4EB91A7D944D472D4C95D600148BEA6D53`).
+Its `cleanline.m` and `pop_cleanline.m` expressly permit redistribution and
+modification under GPL version 3 or later. `eegplugin_cleanline.m` permits GPL
+version 2 or later. `cleanline.m` exposes the `newversion` switch and calls
+`cleanLineNoise.m` for that V2 path. On this package-level evidence, we use
+GPL-3.0-or-later for the adapted V2 computation. The archive also carries a
+top-level GPL v2 license text; it is preserved as
+`ORIGINAL_CLEANLINE_LICENSE.txt` and disclosed here, not interpreted as a
+GPL-v2-only restriction overriding the explicit program notices. This is the
+documented licensing interpretation for this distribution, not a new license
+grant. Original source comments, authorship, and copyright notices in the
+adapted V2 files are retained. See the
+[SCCN source](https://github.com/sccn/cleanline/blob/master/cleanline.m) and
+[source provenance](PROVENANCE.md).
 
-The bundled `external/chronux_2_modified/License.txt` is the GPL v2 text and explicitly says that some other components shipped with Chronux may have different terms. The relevant `mtfftc.m`, `createdatamatc.m`, `change_row_to_column.m`, and `getfgrid.m` files have no per-file version statement in this archive. Chronux's [release note](https://github.com/jsiegle/chronux/blob/master/release_note.txt) identifies the project as GPL v2. It does not establish that these four modified files permit GPL v3 redistribution. The [GNU license FAQ](https://www.gnu.org/licenses/gpl-faq.en.html#v2v3Compatibility) states that GPL-v2-only and GPL-v3 code are incompatible; GPL-v2-or-later permits GPL v3.
+## Third-party files in the original CleanLine archive
 
-The CleanLine `external/bcilab_partial` copy contains many argument-parsing routines and a separate embedded dependency license. The rights for the exact partial copy have not been established file by file. The local prototype uses a newly written wrapper instead of bundling BCILAB. It also uses newly written compatibility implementations of the four numerical helper interfaces, with sample-exact parity in tested 30-second cases. This removes those bundled dependencies from the prototype, but the V2 core's exact GPL version permission remains ambiguous.
+| Original bundled files | Evidence and compatibility finding | Distribution choice |
+| --- | --- | --- |
+| `external/chronux_2_modified/spectral_analysis/continuous/mtfftc.m`, `external/chronux_2_modified/spectral_analysis/continuous/createdatamatc.m`, `external/chronux_2_modified/spectral_analysis/helper/change_row_to_column.m`, `external/chronux_2_modified/spectral_analysis/helper/getfgrid.m` | The bundled Chronux `License.txt` is GPL v2 text; the four files have no explicit “or later” statement. The [Chronux release note](https://github.com/jsiegle/chronux/blob/master/release_note.txt) describes the project as GPL v2. GPL-v2-only code would be incompatible with a GPL-v3 work under the [GNU compatibility guidance](https://www.gnu.org/licenses/gpl-faq.en.html#v2v3Compatibility). The exact modified copies therefore lack a demonstrated GPL-v3-compatible grant. | **Excluded.** Four independently written `+clgpt6compat` routines implement the required numeric interfaces and passed sample-exact tests. No Chronux source is in the ZIP. |
+| `external/bcilab_partial/arguments/arg_*.m`, `external/bcilab_partial/helpers/hlp_*.m`, and associated environment, utility, and MEX files | This partial copy has no single top-level license manifest identifying every included file. The [BCILAB release notes](https://github.com/sccn/BCILAB/blob/devel/RELEASE%20NOTES.TXT) say helpers, miscellaneous, argument, and parallel functions became BSD licensed, but that does not establish the precise terms and notice requirements for every file in this older partial copy. | **Excluded.** A new wrapper uses MATLAB `inputParser` and a separate EEGLAB dialog. No BCILAB source or binary is in the ZIP. |
+| `external/bcilab_partial/dependencies/CStrAinBP-2009-09-13/*` | The included `license.txt` grants redistribution under a two-condition BSD-style license with copyright and disclaimer retention. Those terms are compatible with GPL v3, but the files are unnecessary. | **Excluded.** No CStrAinBP code or binary is in the ZIP. |
 
-**Release gate:** Do not upload the bundled Chronux or BCILAB source, or a ZIP containing them. Do not describe the repository's GPL v3 file as relicensing third-party code. Before publishing the package-qualified V2 core, confirm that the verified CleanLine 2.00 V2 source permits distribution in this GPL-v3 repository; otherwise keep the code local or obtain appropriate permission. The development branch may contain original wrapper work, benchmark methodology, and this audit, but no dependency with unresolved redistribution terms.
+The replacement helpers are short, newly written MATLAB implementations of
+the needed numerical operations; their provenance and exact parity checks are
+documented in the [validation report](VALIDATION_REPORT_20261118.md). Runtime
+requirements are EEGLAB and MATLAB's Signal Processing and Statistics
+toolboxes; the optional parallel mode also needs Parallel Computing Toolbox.
+These products are not bundled.
+
+## Package check
+
+The versioned plugin folder and ZIP contain the adapted V2 core, new wrapper,
+new compatibility helpers, GPL v3 license text, retained archive license
+text, notices, documentation, and aggregate benchmarks. They contain no
+`external/chronux_2_modified`, `external/bcilab_partial`, participant EEG,
+`.set`/`.fdt` files, or third-party binaries. Serial mode was tested with no
+parallel pool; parallel mode was tested with eight process workers.

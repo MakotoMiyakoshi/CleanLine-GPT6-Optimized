@@ -1,11 +1,12 @@
-# CleanLine V2 development validation — 2026-11-18
+# CleanLine V2 plugin validation — 2026-11-18
 
 ## Status
 
 The optimized computational source is validated on the stated 33-channel
-benchmark. The complete EEGLAB plugin remains a local development build
-because the copied V2 core's redistribution permission needs confirmation.
-No installation ZIP is published by this branch.
+benchmark. Both modes of the self-contained EEGLAB plugin passed the
+reference parity checks described below. The [license audit](LICENSING_AUDIT.md)
+documents the SCCN V2 redistribution interpretation and excluded third-party
+files.
 
 ## Reproducible source and settings
 
@@ -53,27 +54,26 @@ frequencies/amplitudes, and a fitted sinusoid were exactly equal in the
 tested comparisons. The isolated 5-minute one-channel optimization screen
 has [three rotated-order timing rows](../benchmarks/incremental_times.csv).
 
-The complete local plugin prototype passed a 30-second public-reference
+The plugin passed a 30-second public-reference
 comparison for double-precision EEG, single-precision original/optimized
 parity, command-history replay, input/event preservation, and separate Tools
 menu registration. A 33-channel, 30-second parallel call ran with the
 original CleanLine plugin removed from the MATLAB path and remained exactly
-equal to its reference output. A rebuilt local ZIP (28 files, SHA-256
-`A0794673378EDC7EE1DA40F4330B56F6F6E738BFD50DFE1E2748B0D1D352E4B4`)
-was extracted and the same checks passed from the extracted location.
-In a separate full-duration check, public CleanLine V2 and both local plugin
+equal to its reference output. A development ZIP was extracted and the same
+checks passed from the extracted location. The final 1.0.0 installation ZIP
+is tested separately as part of the release gate.
+In a separate full-duration check, public CleanLine V2 and both plugin
 modes processed the same 33-channel 5- and 30-minute inputs with eight
 workers. Cleaned samples, removed samples, and event metadata were exactly
 equal in both comparisons. The portable
-[`test_cleanline_gpt6_full_parity.m`](../development/test_cleanline_gpt6_full_parity.m)
-records this check; it requires a locally complete plugin and licensed test
-data and is not runnable from this partial development branch alone.
+[`test_cleanline_gpt6_full_parity.m`](../tests/test_cleanline_gpt6_full_parity.m)
+records this check; it requires separately supplied licensed test data.
 Interactive GUI layout and all option combinations have not been exhaustively
 tested.
 
 ## Limits
 
 These findings apply to the stated data and settings. Reference V2 ignores
-boundary events, and the equivalent mode retains that behavior. The public
-development branch excludes the copied V2 core and therefore is not an
-installable plugin. See the [license audit](LICENSING_AUDIT.md).
+boundary events, and the equivalent mode retains that behavior. The
+historical V1 engine and ICA component cleaning are outside this package.
+See the [license audit](LICENSING_AUDIT.md) for excluded dependencies.

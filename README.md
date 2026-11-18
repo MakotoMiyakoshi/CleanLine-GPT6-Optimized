@@ -1,9 +1,7 @@
-# CleanLine GPT-6 Optimized — development benchmark and licensing review
+# CleanLine GPT-6 Optimized 1.0.0
 
-**Development status:** The full EEGLAB plugin is **not released**. Its local
-prototype passed the checks described below, but the redistribution license
-for the copied CleanLine V2 core has not been established. This branch contains
-new wrapper code and benchmark documentation only; it is not an installation ZIP.
+A self-contained EEGLAB plugin with selectable **Original CleanLine 2.00 V2**
+(`newversion=1`) and a numerically identical optimized implementation.
 
 **5-minute recording — Original CleanLine: 51.47 s → Optimized CleanLine:
 13.69 s (3.8× faster; 73.4% reduction in execution time).**
@@ -19,6 +17,33 @@ execution: **15.28 → 13.69 s at 5 min (1.12×)** and **80.43 → 69.94 s at
 those durations, respectively.
 Speedup = Original time / Optimized time; time reduction (%) =
 100 × (Original time − Optimized time) / Original time.
+
+## Install and run
+
+Download the [versioned installation ZIP](CleanLine_GPT6_Optimized_1.0.0.zip)
+and extract its `CleanLine_GPT6_Optimized_1.0.0` folder under EEGLAB's
+`plugins` directory. Restart EEGLAB, open **Tools → CleanLine GPT-6
+Optimized**, and choose Original or Optimized and Serial or Parallel.
+Optimized and Serial are the defaults. The original CleanLine plugin is not
+required. The complete [plugin source](CleanLine_GPT6_Optimized_1.0.0/) is
+also available here. The [release notes](RELEASE_NOTES_1.0.0.md) include the
+ZIP checksum and installation verification.
+
+```matlab
+[EEGclean, com, report] = pop_cleanline_gpt6(EEG, ...
+    'Implementation','optimized', 'ExecutionMode','serial', ...
+    'LineFrequencies',60, 'ChanCompIndices',1:EEG.nbchan, ...
+    'SlidingWinLength',4, 'SlidingWinStep',1, ...
+    'Bandwidth',2, 'TaperBandWidth',2, 'LineAlpha',0.01, ...
+    'PaddingFactor',2, 'SmoothingFactor',100, 'Newversion',1);
+```
+
+The plugin requires EEGLAB, MATLAB Signal Processing Toolbox (`dpss`), and
+Statistics and Machine Learning Toolbox (`finv`). Parallel mode additionally
+requires Parallel Computing Toolbox; Serial mode does not. The Original
+choice is V2, not the historical CleanLine V1 engine. V2 cleans channels in
+continuous EEG; it does not implement ICA component cleaning. As in the
+reference, boundary events are kept as metadata but do not split processing.
 
 ## Total execution time
 
@@ -97,6 +122,9 @@ threshold, iteration limit, convergence behavior, sinusoid fitting, and
 overlap blending remain the same. The original implementation already exits
 when no target frequency remains; that behavior is not claimed as an
 optimization.
+Original V2 already uses channel-level `parfor`; this plugin preserves it as
+the optional Parallel mode and adds a native `for` loop for the default Serial
+mode. Existing `parfor` support is not counted as a new optimization.
 
 ## Benchmark method
 
@@ -148,21 +176,22 @@ event metadata were exactly equal.
 The [validation report](docs/VALIDATION_REPORT_20261118.md) gives the test
 scope and local ZIP installation check.
 
-## Plugin prototype and release gate
+## Plugin validation and provenance
 
-The complete local prototype provides distinct EEGLAB Tools menu and MATLAB
-entry points, Original and Optimized V2 choices, serial and parallel modes,
-parameter settings, command history, provenance metadata, and newly written
-compatibility helpers. It passed a local 30-second original/optimized parity
-check, a 33-channel parallel parity check, and a ZIP extraction installation
-test. These short checks do not substitute for the final duration benchmarks.
-The complete local plugin also passed direct public-reference parity at
-5 and 30 minutes on all 33 channels.
-The full prototype and test ZIP are held locally while the licensing issue is
-reviewed. The partial source in [`development/`](development/) is not an
-installable plugin.
+The plugin provides separate EEGLAB Tools menu and MATLAB entry points,
+Original and Optimized V2 choices, serial and parallel modes, parameter
+settings, progress feedback, command history, and processing metadata in
+`EEG.etc.cleanline_gpt6`. A fresh ZIP extraction passed the menu, API,
+single-precision, history-replay, and 33-channel parallel checks. Both plugin
+modes also matched the public reference exactly on 5- and 30-minute data.
+The [validation report](docs/VALIDATION_REPORT_20261118.md) gives the scope
+and limitations.
 
-The [licensing audit](docs/LICENSING_AUDIT.md) explains why the verified
-CleanLine V2 files, bundled Chronux files, and BCILAB files are excluded from
-this development branch. The [provenance report](docs/PROVENANCE.md) records
-source verification, attribution, and the exact accepted changes.
+The [licensing audit](docs/LICENSING_AUDIT.md) documents the SCCN V2
+GPL-3.0-or-later interpretation and the exact Chronux and BCILAB files
+excluded from the package. The [provenance report](docs/PROVENANCE.md)
+records source verification, authorship, and the accepted changes. The
+package includes the original archive license text and notices alongside
+the repository's GPL v3 license. The core V2 algorithms and scientific
+method remain attributed to their original authors; the performance changes
+were led by Makoto Miyakoshi with GPT-6 programming assistance.

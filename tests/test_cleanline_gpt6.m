@@ -71,7 +71,7 @@ trystrs=struct('no_check','');
 catchstrs=struct('store_and_hist','');
 vers=eegplugin_cleanline_gpt6(fig,trystrs,catchstrs);
 labels=get(findobj(toolsMenu,'Type','uimenu'),'Label');
-assert(strcmp(vers,'0.1.0-dev') && ...
+assert(strcmp(vers,'1.0.0') && ...
     any(strcmp(labels,'CleanLine GPT-6 Optimized')));
 close(fig);
 fprintf('Distinct EEGLAB Tools entry registered.\n');
