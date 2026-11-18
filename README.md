@@ -5,11 +5,11 @@ prototype passed the checks described below, but the redistribution license
 for the copied CleanLine V2 core has not been established. This branch contains
 new wrapper code and benchmark documentation only; it is not an installation ZIP.
 
-**5-minute recording: Original CleanLine serial 51.47 s → Optimized CleanLine
-parallel 13.69 s (3.8× faster; 73.4% reduction in execution time).**
+**5-minute recording — Original CleanLine: 51.47 s → Optimized CleanLine:
+13.69 s (3.8× faster; 73.4% reduction in execution time).**
 
-**30-minute recording: Original CleanLine serial 289.94 s → Optimized CleanLine
-parallel 69.94 s (4.1× faster; 75.9% reduction in execution time).**
+**30-minute recording — Original CleanLine: 289.94 s → Optimized CleanLine:
+69.94 s (4.1× faster; 75.9% reduction in execution time).**
 
 These are medians of three measured runs on the same 33-channel EEG data.
 The headline compares the usual serial baseline with the eight-worker
@@ -17,6 +17,8 @@ optimized mode. The source change alone also improves matched parallel
 execution: **15.28 → 13.69 s at 5 min (1.12×)** and **80.43 → 69.94 s at
 30 min (1.15×)**. The optimized serial mode takes 40.00 s and 226.85 s at
 those durations, respectively.
+Speedup = Original time / Optimized time; time reduction (%) =
+100 × (Original time − Optimized time) / Original time.
 
 ## Total execution time
 
@@ -139,6 +141,10 @@ history command replayed exactly. “Exact” here means direct equality of
 the compared numeric arrays, which is stronger than numerical equivalence
 within a floating-point tolerance. These tests cover the stated datasets and
 settings; they are not a claim of exact equality for every possible input.
+The local plugin's Original and Optimized parallel modes were also each
+compared directly with the installed public CleanLine V2 on the full
+33-channel 5- and 30-minute inputs: cleaned samples, removed samples, and
+event metadata were exactly equal.
 The [validation report](docs/VALIDATION_REPORT_20261118.md) gives the test
 scope and local ZIP installation check.
 
@@ -150,6 +156,8 @@ parameter settings, command history, provenance metadata, and newly written
 compatibility helpers. It passed a local 30-second original/optimized parity
 check, a 33-channel parallel parity check, and a ZIP extraction installation
 test. These short checks do not substitute for the final duration benchmarks.
+The complete local plugin also passed direct public-reference parity at
+5 and 30 minutes on all 33 channels.
 The full prototype and test ZIP are held locally while the licensing issue is
 reviewed. The partial source in [`development/`](development/) is not an
 installable plugin.

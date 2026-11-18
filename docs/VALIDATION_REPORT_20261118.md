@@ -61,6 +61,13 @@ original CleanLine plugin removed from the MATLAB path and remained exactly
 equal to its reference output. A rebuilt local ZIP (28 files, SHA-256
 `A0794673378EDC7EE1DA40F4330B56F6F6E738BFD50DFE1E2748B0D1D352E4B4`)
 was extracted and the same checks passed from the extracted location.
+In a separate full-duration check, public CleanLine V2 and both local plugin
+modes processed the same 33-channel 5- and 30-minute inputs with eight
+workers. Cleaned samples, removed samples, and event metadata were exactly
+equal in both comparisons. The portable
+[`test_cleanline_gpt6_full_parity.m`](../development/test_cleanline_gpt6_full_parity.m)
+records this check; it requires a locally complete plugin and licensed test
+data and is not runnable from this partial development branch alone.
 Interactive GUI layout and all option combinations have not been exhaustively
 tested.
 
