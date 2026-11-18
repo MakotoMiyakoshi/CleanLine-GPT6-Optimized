@@ -1,5 +1,22 @@
 # CleanLine GPT-6 Optimized 1.0.0
 
+## Origins and acknowledgments
+
+**This project is a performance-optimized derivative of the original
+[CleanLine EEGLAB plugin](https://github.com/sccn/cleanline), written by Tim
+Mullen at the Swartz Center for Computational Neuroscience, University of
+California, San Diego.** Original CleanLine applies the multitaper approach
+to sinusoidal interference described by Partha Mitra and Hemant Bokil in
+*Observed Brain Dynamics* (2007, §7.3.4) and drew on the Chronux toolbox.
+The [SCCN project history](https://github.com/sccn/cleanline/blob/master/Readme.md#cleanline-versions)
+credits **Kay A. Robbins** with the CleanLine V2 rewrite, **Arnaud Delorme**
+with integration, and **Makoto Miyakoshi** with testing. This repository,
+led by Makoto Miyakoshi with programming and optimization assistance from
+OpenAI GPT-6, improves the efficiency and packaging of that V2
+implementation while preserving its signal-processing results. The original
+method and software remain credited to their developers; this repository
+does not claim a new line-noise removal method.
+
 A self-contained EEGLAB plugin with selectable **Original CleanLine 2.00 V2**
 (`newversion=1`) and a numerically identical optimized implementation.
 
